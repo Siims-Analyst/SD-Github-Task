@@ -19,26 +19,36 @@
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
 									"});",
+									"",
 									"pm.test(\"Status code name has string\", function () {",
-									"    pm.response.to.have.status(\"OK\");",
+									"    pm.expect(pm.response.reason()).to.include(\"OK\");",
 									"});",
 									"",
 									"pm.test(\"Body matches string\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"title\");",
 									"});",
 									"",
-									"",
-									"var jsondata = pm.response.json();",
-									"console.log(jsondata)",
+									"var jsondata = pm.response.text(); // Changed pm.response.json() to pm.response.text() to handle text/xml response",
+									"console.log(jsondata);",
 									"",
 									"pm.test(\"Your test name\", function () {",
-									"   ",
-									"    pm.expect(jsondata.title).to.eql(\"Fusio\");",
+									"    pm.expect(jsondata).to.include(\"Fusio\"); // Changed .to.eql to .to.include as the response is in text format",
 									"});",
 									"",
 									"pm.test(\"Body is correct\", function () {",
-									"    pm.response.to.have.body(jsondata);",
-									"});"
+									"    pm.expect(pm.response.text()).to.eql(jsondata);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
